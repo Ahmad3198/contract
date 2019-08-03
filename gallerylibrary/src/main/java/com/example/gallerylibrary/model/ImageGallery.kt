@@ -1,4 +1,4 @@
-package com.example.mvvmkotlin.model
+package  com.example.gallerylibrary.model
 
 import java.util.ArrayList
 

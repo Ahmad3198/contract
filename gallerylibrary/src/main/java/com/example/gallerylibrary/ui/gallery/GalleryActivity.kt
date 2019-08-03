@@ -1,37 +1,33 @@
-package com.example.mvvmkotlin.view.gallery
+package com.example.gallerylibrary.ui.gallery
 
 import android.Manifest
 import android.app.Activity
 import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.database.Cursor
-import android.database.CursorJoiner
 import android.hardware.Camera
-import android.net.Uri
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
-import android.provider.ContactsContract
 import android.provider.MediaStore
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import androidx.core.net.toUri
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.mvvmkotlin.BuildConfig
-import com.example.mvvmkotlin.R
-import com.example.mvvmkotlin.model.ImageGallery
-import com.example.mvvmkotlin.model.PathImage
-import com.example.mvvmkotlin.view.gallery.adapter.FolderImageAdapter
+import com.example.gallerylibrary.BuildConfig
+import com.example.gallerylibrary.R
+import com.example.gallerylibrary.model.ImageGallery
+import com.example.gallerylibrary.model.PathImage
+import com.example.gallerylibrary.ui.gallery.adapter.FolderImageAdapter
+import com.example.gallerylibrary.util.MediaStoreContent
 import kotlinx.android.synthetic.main.activity_gallery.*
 import rx_activity_result2.RxActivityResult
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
+
 
 
 class GalleryActivity : AppCompatActivity(), FolderImageAdapter.SelectFolder, ImageCollectionFragment.SelectedCallBack {
@@ -43,7 +39,7 @@ class GalleryActivity : AppCompatActivity(), FolderImageAdapter.SelectFolder, Im
         ,
         ALL
     }
-
+    private lateinit var mediaStoreContent : MediaStoreContent
     private val REQUEST_PERMISSIONS = 100
     private val folderImageAdapter = FolderImageAdapter()
     var allImages = ArrayList<ImageGallery>()
@@ -54,6 +50,7 @@ class GalleryActivity : AppCompatActivity(), FolderImageAdapter.SelectFolder, Im
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gallery)
+        mediaStoreContent = MediaStoreContent(this)
         this.setUpView()
         this.getImage()
     }
@@ -69,9 +66,9 @@ class GalleryActivity : AppCompatActivity(), FolderImageAdapter.SelectFolder, Im
 
     override fun onResume() {
         super.onResume()
-        folderImageAdapter.camera = Camera.open()
-        folderImageAdapter.startPreview()
-        folderImageAdapter.notifyDataSetChanged()
+//        folderImageAdapter.notifyDataSetChanged()
+//        folderImageAdapter.camera = Camera.open()
+//        folderImageAdapter.startPreview()
     }
 
     private fun getImage() {
@@ -87,10 +84,10 @@ class GalleryActivity : AppCompatActivity(), FolderImageAdapter.SelectFolder, Im
         ) {
             if (
                 ActivityCompat.shouldShowRequestPermissionRationale(
-                    this@GalleryActivity,
+                    this,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE
                 ) && ActivityCompat.shouldShowRequestPermissionRationale(
-                    this@GalleryActivity,
+                    this,
                     Manifest.permission.READ_EXTERNAL_STORAGE
                 )
             ) {
@@ -105,11 +102,11 @@ class GalleryActivity : AppCompatActivity(), FolderImageAdapter.SelectFolder, Im
             allImages.clear()
             allImages.add(0, ImageGallery("", ArrayList()))
             when (mediaType) {
-                MediaType.VIDEO -> findVideo()
-                MediaType.IMAGE -> findImage()
+                MediaType.VIDEO -> allImages.addAll(mediaStoreContent.findVideo())
+                MediaType.IMAGE -> allImages.addAll(mediaStoreContent.findImage())
                 MediaType.ALL -> {
-                    findVideo()
-                    findImage()
+                    allImages.addAll(mediaStoreContent.findVideo())
+                    allImages.addAll(mediaStoreContent.findImage())
                 }
             }
             allImages.forEach { it.path.sortByDescending { it -> it.date } }
@@ -118,83 +115,12 @@ class GalleryActivity : AppCompatActivity(), FolderImageAdapter.SelectFolder, Im
     }
 
     override fun onPause() {
-        if (folderImageAdapter.inPreview) {
-            folderImageAdapter.camera!!.stopPreview()
-        }
-        folderImageAdapter.camera!!.release()
-        folderImageAdapter.camera = null
-        folderImageAdapter.inPreview = false
         super.onPause()
-    }
-
-    private fun findVideo() {
-
-        val uri1 = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
-        val orderBy = MediaStore.Video.Media.DATE_TAKEN
-        val projectionVideo = arrayOf(MediaStore.Video.Media.DATA, MediaStore.Video.Media.BUCKET_DISPLAY_NAME, MediaStore.Images.Media.DATE_TAKEN)
-        val cursorVideo = applicationContext.contentResolver.query(uri1, projectionVideo, null, null, "$orderBy DESC")!!
-        val columnIndexDataVideo = cursorVideo.getColumnIndexOrThrow(MediaStore.Video.Media.DATA)
-        val columnIndexFolderNameVideo = cursorVideo.getColumnIndexOrThrow(MediaStore.Video.Media.BUCKET_DISPLAY_NAME)
-        val columnDate = cursorVideo.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_TAKEN)
-        while (cursorVideo.moveToNext()) {
-            var index = 0
-            var folderExist = false
-            val absolutePathOfVideo = cursorVideo.getString(columnIndexDataVideo)
-            val dateTaken = cursorVideo.getString(columnDate)
-
-            for (i: Int in allImages.indices) {
-                if (allImages[i].folder == cursorVideo.getString(columnIndexFolderNameVideo)) {
-                    folderExist = true
-                    index = i
-                    break
-                } else {
-                    folderExist = false
-                }
-            }
-
-            if (folderExist) {
-                allImages[index].path.add(PathImage(MediaType.VIDEO, absolutePathOfVideo, Date(dateTaken.toLong())))
-            } else {
-                val arrayList = ArrayList<PathImage>()
-                arrayList.add(PathImage(MediaType.VIDEO, absolutePathOfVideo, Date(dateTaken.toLong())))
-                allImages.add(ImageGallery(cursorVideo.getString(columnIndexFolderNameVideo), arrayList))
-            }
-        }
-    }
-
-    private fun findImage(){
-
-        val uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        val projection = arrayOf(MediaStore.Images.Media.DATA, MediaStore.Images.Media.BUCKET_DISPLAY_NAME, MediaStore.Images.Media.DATE_TAKEN)
-        val orderBy = MediaStore.Images.Media.DATE_TAKEN
-        val cursor = applicationContext.contentResolver.query(uri, projection, null, null, "$orderBy DESC")!!
-        val columnIndexData = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-        val columnIndexFolderName = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
-        val columnDate = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_TAKEN)
-        while (cursor.moveToNext()) {
-            var index = 0
-            var folderExist = false
-            val absolutePathOfImage = cursor.getString(columnIndexData)
-            val dateTaken = cursor.getString(columnDate)
-
-            for (i: Int in allImages.indices) {
-                if (allImages[i].folder == cursor.getString(columnIndexFolderName)) {
-                    folderExist = true
-                    index = i
-                    break
-                } else {
-                    folderExist = false
-                }
-            }
-
-            if (folderExist) {
-                allImages[index].path.add(PathImage(MediaType.IMAGE, absolutePathOfImage, Date(dateTaken.toLong())))
-            } else {
-                val arrayList = ArrayList<PathImage>()
-                arrayList.add(PathImage(MediaType.IMAGE, absolutePathOfImage, Date(dateTaken.toLong())))
-                allImages.add(ImageGallery(cursor.getString(columnIndexFolderName), arrayList))
-            }
-        }
+//        folderImageAdapter.camera?.stopPreview()
+//        folderImageAdapter.camera?.release()
+//        folderImageAdapter.camera = null
+//        folderImageAdapter.inPreview = false
+//        folderImageAdapter.notifyDataSetChanged()
     }
 
     override fun selected(index: Int) {
@@ -207,7 +133,7 @@ class GalleryActivity : AppCompatActivity(), FolderImageAdapter.SelectFolder, Im
             transaction.replace(R.id.frame, imageCollectionFragment, "ImageCollectionFragment")
             transaction.commit()
         } else {
-
+            System.out.println("Path" + BuildConfig.APPLICATION_ID + ".fileprovider")
             val timeStamp = SimpleDateFormat("yyyyMMddHHmmss").format(Date())
             when (mediaType) {
                 MediaType.IMAGE -> {
@@ -254,13 +180,14 @@ class GalleryActivity : AppCompatActivity(), FolderImageAdapter.SelectFolder, Im
                     val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
                     val imageFileName = "IMG$timeStamp.jpg"
                     val fileImage = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), imageFileName)
-                    val uriImage = FileProvider.getUriForFile(this@GalleryActivity, BuildConfig.APPLICATION_ID + ".fileprovider", fileImage)
+                    val uriImage = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".fileprovider", fileImage)
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, uriImage)
 
                     val takeVideoIntent = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
                     val imageFileNameVideo = "V$timeStamp.mp4"
                     val fileVideo = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), imageFileNameVideo)
-                    val uriVideo = FileProvider.getUriForFile(this@GalleryActivity, BuildConfig.APPLICATION_ID + ".fileprovider", fileVideo)
+
+                    val uriVideo = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".fileprovider", fileVideo)
                     takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, uriVideo)
 
                     val chooserIntent = Intent.createChooser(takeVideoIntent, "Capture Image or Video")

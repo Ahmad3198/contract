@@ -1,6 +1,6 @@
-package com.example.mvvmkotlin.model
+package com.example.gallerylibrary.model
 
-import com.example.mvvmkotlin.view.gallery.GalleryActivity
+import com.example.gallerylibrary.ui.gallery.GalleryActivity
 import java.util.*
 
 

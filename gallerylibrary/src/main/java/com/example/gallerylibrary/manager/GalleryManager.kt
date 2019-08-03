@@ -1,20 +1,20 @@
-package com.example.mvvmkotlin.view
+package com.example.gallerylibrary.manager
 
 import android.app.Activity
 import android.content.Intent
-import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.example.mvvmkotlin.view.gallery.GalleryActivity
+import com.example.gallerylibrary.ui.gallery.GalleryActivity
 import rx_activity_result2.RxActivityResult
 import java.util.*
 
 class GalleryManager {
 
-    private lateinit var activity: Activity
+    private var activity: AppCompatActivity? = null
     private lateinit var fragment: Fragment
     private var callBack: CallBack? = null
 
-    constructor(activity: Activity) {
+    constructor(activity: AppCompatActivity) {
         this.activity = activity
     }
 
@@ -29,13 +29,13 @@ class GalleryManager {
 
     fun open(): GalleryManager {
         if (activity != null) {
-            val galleryActivity = Intent(activity,GalleryActivity::class.java)
+            val galleryActivity = Intent(activity, GalleryActivity::class.java)
             RxActivityResult.on(activity).startIntent(galleryActivity).subscribe {
                 val resultCode = it.resultCode()
                 if (resultCode == Activity.RESULT_OK) {
                     System.out.println("Gallery Success")
                     val arrayList = it.data().extras!!.getStringArrayList("path")
-                    callBack!!.resultPath(arrayList!!)
+                    callBack?.resultPath(arrayList!!)
                 }
             }
         } else {
@@ -45,7 +45,7 @@ class GalleryManager {
                 if (resultCode == Activity.RESULT_OK) {
                     System.out.println("Gallery Success")
                     val arrayList = it.data().extras!!.getStringArrayList("path")
-                    callBack!!.resultPath(arrayList!!)
+                    callBack?.resultPath(arrayList!!)
                 }
             }
         }

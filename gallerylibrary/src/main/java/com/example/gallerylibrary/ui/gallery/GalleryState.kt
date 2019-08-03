@@ -1,6 +1,6 @@
-package com.example.mvvmkotlin.view.gallery
+package com.example.gallerylibrary
 
-import com.example.mvvmkotlin.model.ImageGallery
+import com.example.gallerylibrary.model.ImageGallery
 import java.util.ArrayList
 
 sealed class GalleryState (val allImages: ArrayList<ImageGallery>? = null){

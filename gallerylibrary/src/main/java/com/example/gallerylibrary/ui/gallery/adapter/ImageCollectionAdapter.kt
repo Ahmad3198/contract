@@ -1,4 +1,4 @@
-package com.example.mvvmkotlin.view.gallery.adapter
+package com.example.gallerylibrary.ui.gallery
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.mvvmkotlin.R
-import com.example.mvvmkotlin.model.PathImage
-import com.example.mvvmkotlin.view.gallery.GalleryActivity
+import com.example.gallerylibrary.R
+import com.example.gallerylibrary.model.PathImage
 import kotlinx.android.synthetic.main.adapter_folder.view.*
-import java.util.ArrayList
+import java.util.*
+
 
 class ImageCollectionAdapter : RecyclerView.Adapter<ImageCollectionAdapter.ViewHolder>() {
 
