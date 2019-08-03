@@ -1,6 +1,7 @@
 package com.example.contract.ui.activity.main
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.contract.R
 import com.example.contract.di.component.DaggerActivityComponent
@@ -20,9 +21,7 @@ class MainActivity : AppCompatActivity(), GalleryManager.CallBack {
         setContentView(R.layout.activity_main)
         injectDependency()
 
-        openGallery.setOnClickListener {
-            GalleryManager(this).open()
-        }
+        setOnClick()
     }
 
     private fun injectDependency() {
@@ -32,7 +31,13 @@ class MainActivity : AppCompatActivity(), GalleryManager.CallBack {
         activityComponent.inject(this)
     }
 
-    override fun resultPath(arrayList: ArrayList<String>) {
+    private fun setOnClick() {
+        selectImage.setOnClickListener {
+            GalleryManager(this).open().setCallback(this)
+        }
+    }
 
+    override fun resultPath(arrayList: ArrayList<String>) {
+        Toast.makeText(this,arrayList.first(),Toast.LENGTH_LONG).show()
     }
 }

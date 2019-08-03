@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Contract</string>
+
+    <!-- Main -->
+    <string name="text_place_holder_send">พิมพ์อะไรสักหน่อย</string>
+    <!-- Main -->
+
 </resources>
