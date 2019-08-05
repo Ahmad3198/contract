@@ -6,6 +6,7 @@ import com.example.gallerylibrary.model.ImageGallery
 import com.example.gallerylibrary.model.PathImage
 import com.example.gallerylibrary.ui.gallery.GalleryActivity
 import java.util.*
+import kotlin.collections.ArrayList
 
 class MediaStoreContent(applicationContext: Context) {
 
@@ -82,6 +83,27 @@ class MediaStoreContent(applicationContext: Context) {
             }
         }
         return allImages
+    }
+
+    fun findAll() : ArrayList<ImageGallery> {
+
+        val allPath = ArrayList<PathImage>()
+        val pathVideo = findVideo()
+        val pathImage = findImage()
+
+        for (i: Int in pathImage.indices) {
+            allPath.addAll(pathImage[i].path)
+        }
+
+        for (i: Int in pathVideo.indices) {
+            allPath.addAll(pathVideo[i].path)
+        }
+
+        allPath.sortByDescending { it.date }
+        val imageGallery = ImageGallery("all", allPath)
+        val result = ArrayList<ImageGallery>()
+        result.add(imageGallery)
+        return result
     }
 
 }

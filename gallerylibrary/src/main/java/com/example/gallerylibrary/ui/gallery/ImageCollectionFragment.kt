@@ -70,8 +70,8 @@ class ImageCollectionFragment : Fragment(), ImageCollectionAdapter.SelectedImage
         listener = null
     }
 
-    override fun selected() {
-        txtCount.text = "("+ imageCollectionAdapter.selects.size +")"
+    override fun selected(count: Int) {
+        txtCount.text = "("+ count +")"
     }
 
     interface SelectedCallBack {

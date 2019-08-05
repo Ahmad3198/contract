@@ -46,12 +46,12 @@ class ImageCollectionAdapter : RecyclerView.Adapter<ImageCollectionAdapter.ViewH
             if (images[position].select) {
                 holder.view.selected.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_checked))
                 selects.add(images[position].path)
-                this.selectedImage?.selected()
+                this.selectedImage?.selected(selects.size)
             } else {
                 holder.view.selected.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.shape_selected))
                 if (selects.indexOf(images[position].path) != -1) {
                     selects.removeAt(selects.indexOf(images[position].path))
-                    this.selectedImage?.selected()
+                    this.selectedImage?.selected(selects.size)
                 }
             }
         }
@@ -62,7 +62,7 @@ class ImageCollectionAdapter : RecyclerView.Adapter<ImageCollectionAdapter.ViewH
     }
 
     interface SelectedImage {
-        fun selected()
+        fun selected(count: Int)
     }
 }
 

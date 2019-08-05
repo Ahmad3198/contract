@@ -9,5 +9,4 @@ data class PathImage(
     var path: String,
     var date: Date,
     var select: Boolean = false
-
 )
