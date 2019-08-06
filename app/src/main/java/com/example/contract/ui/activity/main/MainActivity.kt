@@ -2,11 +2,11 @@ package com.example.contract.ui.activity.main
 
 import android.os.Bundle
 import android.view.View
-import android.widget.MediaController
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.contract.R
+import com.example.contract.service.KafkaConnection
 import com.example.contract.di.component.DaggerActivityComponent
 import com.example.contract.di.module.ActivityModule
 import com.example.gallerylibrary.manager.GalleryManager

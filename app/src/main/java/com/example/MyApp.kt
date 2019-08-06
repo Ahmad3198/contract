@@ -7,6 +7,7 @@ import com.example.contract.di.component.ApplicationComponent
 import com.example.contract.di.component.DaggerApplicationComponent
 import com.example.contract.di.module.ApplicationModule
 import dagger.android.DaggerApplication
+import io.realm.Realm
 import rx_activity_result2.RxActivityResult
 
 class MyApp : Application() {
@@ -16,6 +17,7 @@ class MyApp : Application() {
     override fun onCreate() {
         super.onCreate()
         RxActivityResult.register(this)
+        Realm.init(this)
         instance = this
         setup()
 
