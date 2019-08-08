@@ -1,16 +1,16 @@
 package com.example.contract.ui.activity.main
 
 import android.widget.LinearLayout
-import com.example.contract.ui.BaseContract
+import com.example.contract.ui.BasePresenter
 
-class MainContract {
+class MainContract : BasePresenter(){
 
-    interface View: BaseContract.View {
+    interface View: BasePresenter.View {
         fun showListImage()
         fun hideListImage()
     }
 
-    interface Presenter: BaseContract.Presenter<MainContract.View> {
+    interface Presenter: BasePresenter.Presenter<MainContract.View> {
         fun onDrawerExpandableLayout(view: LinearLayout, isExpand: Boolean)
     }
 }

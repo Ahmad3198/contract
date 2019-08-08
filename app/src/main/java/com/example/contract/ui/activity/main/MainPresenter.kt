@@ -4,7 +4,7 @@ import android.widget.LinearLayout
 import com.example.contract.util.ExpandableLayout
 import io.reactivex.disposables.CompositeDisposable
 
-class MainPresenter: MainContract.Presenter, ExpandableLayout.AnimationEnd{
+ open class MainPresenter: MainContract.Presenter, ExpandableLayout.AnimationEnd{
 
     private val subscriptions = CompositeDisposable()
     private lateinit var view: MainContract.View

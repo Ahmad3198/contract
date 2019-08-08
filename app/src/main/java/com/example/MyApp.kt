@@ -9,6 +9,9 @@ import com.example.contract.di.module.ApplicationModule
 import dagger.android.DaggerApplication
 import io.realm.Realm
 import rx_activity_result2.RxActivityResult
+import io.realm.RealmConfiguration
+
+
 
 class MyApp : Application() {
 
@@ -18,6 +21,7 @@ class MyApp : Application() {
         super.onCreate()
         RxActivityResult.register(this)
         Realm.init(this)
+        initRealmConfiguration()
         instance = this
         setup()
 
@@ -26,13 +30,19 @@ class MyApp : Application() {
         }
     }
 
-
-
-
     fun setup() {
         component = DaggerApplicationComponent.builder()
             .applicationModule(ApplicationModule(this)).build()
         component.inject(this)
+    }
+
+    private fun initRealmConfiguration() {
+       val realmConfiguration = RealmConfiguration.Builder()
+            .name("android.contract")
+            .schemaVersion(1)
+            .deleteRealmIfMigrationNeeded()
+            .build()
+        Realm.setDefaultConfiguration(realmConfiguration)
     }
 
     fun getApplicationComponent(): ApplicationComponent {

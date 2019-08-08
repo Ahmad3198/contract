@@ -1,9 +1,10 @@
 package com.example.contract.di.module
 
 import android.app.Activity
+import com.example.contract.service.RealmUser
 import com.example.contract.ui.activity.main.MainContract
 import com.example.contract.ui.activity.main.MainPresenter
-import com.example.gallerylibrary.manager.GalleryManager
+import com.example.contract.ui.activity.main.UserPresenter
 import com.example.gallerylibrary.ui.gallery.ImageCollectionAdapter
 import dagger.Module
 import dagger.Provides
@@ -24,5 +25,10 @@ class ActivityModule(private var activity: Activity) {
     @Provides
     fun provideCollectionAdapter(): ImageCollectionAdapter {
         return ImageCollectionAdapter()
+    }
+
+    @Provides
+    fun provideUserPresenter(): UserPresenter {
+        return UserPresenter()
     }
 }

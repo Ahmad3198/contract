@@ -9,6 +9,7 @@ import com.example.contract.R
 import com.example.contract.service.KafkaConnection
 import com.example.contract.di.component.DaggerActivityComponent
 import com.example.contract.di.module.ActivityModule
+import com.example.contract.service.RealmUser
 import com.example.gallerylibrary.manager.GalleryManager
 import com.example.gallerylibrary.ui.gallery.ImageCollectionAdapter
 import com.example.gallerylibrary.ui.gallery.ImageCollectionFragment
@@ -21,10 +22,11 @@ class MainActivity : AppCompatActivity(), GalleryManager.CallBack, MainContract.
     ImageCollectionFragment.SelectedCallBack, ImageCollectionAdapter.SelectedImage{
 
     @Inject
-    lateinit var presenter: MainContract.Presenter
+    lateinit var presenter : MainContract.Presenter
     @Inject
-    lateinit var imageCollectionAdapter: ImageCollectionAdapter
-
+    lateinit var imageCollectionAdapter : ImageCollectionAdapter
+    @Inject
+    lateinit var userPresenter : UserPresenter
     var isExpand = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,6 +35,10 @@ class MainActivity : AppCompatActivity(), GalleryManager.CallBack, MainContract.
         injectDependency()
         presenter.attach(this)
         setActionView()
+
+        userPresenter.getAll()
+
+        KafkaConnection()
     }
 
     private fun injectDependency() {

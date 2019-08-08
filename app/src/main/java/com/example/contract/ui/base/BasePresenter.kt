@@ -1,6 +1,6 @@
 package com.example.contract.ui
 
-class BaseContract {
+open class BasePresenter {
 
     interface Presenter<in T> {
         fun subscribe()
