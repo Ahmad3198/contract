@@ -6,7 +6,7 @@ import dagger.Component
 /**
  * Created by ogulcan on 07/02/2018.
  */
-@Component(modules = arrayOf(FragmentModule::class))
+@Component(modules = [FragmentModule::class])
 interface FragmentComponent {
 
 }

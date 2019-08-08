@@ -1,39 +1,30 @@
 package com.example.mvvmkotlin
 
+import android.app.Activity
 import android.app.Application
-import com.example.contract.BuildConfig
-import com.example.contract.di.component.ActivityComponent
-import com.example.contract.di.component.ApplicationComponent
+import com.example.contract.di.component.AppInjector
 import com.example.contract.di.component.DaggerApplicationComponent
-import com.example.contract.di.module.ApplicationModule
-import dagger.android.DaggerApplication
+
 import io.realm.Realm
 import rx_activity_result2.RxActivityResult
 import io.realm.RealmConfiguration
 
 
-
-class MyApp : Application() {
-
-    lateinit var component: ApplicationComponent
+class MyApp : Application(){
 
     override fun onCreate() {
         super.onCreate()
-        RxActivityResult.register(this)
         Realm.init(this)
         initRealmConfiguration()
-        instance = this
-        setup()
+        RxActivityResult.register(this)
+        AppInjector.init(this)
 
-        if (BuildConfig.DEBUG) {
-
-        }
     }
 
     fun setup() {
-        component = DaggerApplicationComponent.builder()
-            .applicationModule(ApplicationModule(this)).build()
+        val component = DaggerApplicationComponent.builder().application(this).build()
         component.inject(this)
+        instance = this
     }
 
     private fun initRealmConfiguration() {
@@ -43,10 +34,6 @@ class MyApp : Application() {
             .deleteRealmIfMigrationNeeded()
             .build()
         Realm.setDefaultConfiguration(realmConfiguration)
-    }
-
-    fun getApplicationComponent(): ApplicationComponent {
-        return component
     }
 
     companion object {

@@ -11,15 +11,10 @@ import java.util.*
 class KafkaConnection {
     val props = Properties()
 
-
-
-    init {
-        setProperties()
-    }
-
     fun setProperties(){
-        connectConsumer()
-        connectProducer()
+        print("Class KAFKA OK")
+//        connectConsumer()
+//        connectProducer()
     }
 
     fun connectConsumer() {

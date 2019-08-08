@@ -6,12 +6,9 @@ import io.realm.RealmResults
 import javax.inject.Singleton
 
 @Singleton
-class RealmUser {
+class RealmUser(realm: Realm) {
 
-    private var mRealm: Realm
-    constructor(realm: Realm) {
-        mRealm = realm
-    }
+    private var mRealm: Realm = realm
 
     fun closeRealm() {
         mRealm.close()

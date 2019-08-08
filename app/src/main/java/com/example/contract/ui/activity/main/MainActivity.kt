@@ -14,6 +14,7 @@ import com.example.gallerylibrary.manager.GalleryManager
 import com.example.gallerylibrary.ui.gallery.ImageCollectionAdapter
 import com.example.gallerylibrary.ui.gallery.ImageCollectionFragment
 import com.example.gallerylibrary.util.MediaStoreContent
+import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
@@ -27,6 +28,8 @@ class MainActivity : AppCompatActivity(), GalleryManager.CallBack, MainContract.
     lateinit var imageCollectionAdapter : ImageCollectionAdapter
     @Inject
     lateinit var userPresenter : UserPresenter
+    @Inject
+    lateinit var kafkaConnection: KafkaConnection
     var isExpand = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,8 +40,7 @@ class MainActivity : AppCompatActivity(), GalleryManager.CallBack, MainContract.
         setActionView()
 
         userPresenter.getAll()
-
-        KafkaConnection()
+        kafkaConnection.setProperties()
     }
 
     private fun injectDependency() {

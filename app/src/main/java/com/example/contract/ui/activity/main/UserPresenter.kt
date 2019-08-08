@@ -1,15 +1,12 @@
 package com.example.contract.ui.activity.main
 
 import com.example.contract.service.RealmUser
-import javax.inject.Inject
-
+import io.realm.Realm
 
 class UserPresenter {
 
-    @Inject
-    lateinit var realmUser: RealmUser
-
+    val realmUser = RealmUser(Realm.getDefaultInstance())
     fun getAll(){
-//        realmUser.getAllUser()
+        realmUser.getAllUser()
     }
 }
