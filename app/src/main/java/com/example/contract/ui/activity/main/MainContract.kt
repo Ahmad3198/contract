@@ -1,6 +1,7 @@
 package com.example.contract.ui.activity.main
 
-import android.widget.LinearLayout
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.RecyclerView
 import com.example.contract.ui.BasePresenter
 
 class MainContract : BasePresenter(){
@@ -11,6 +12,8 @@ class MainContract : BasePresenter(){
     }
 
     interface Presenter: BasePresenter.Presenter<MainContract.View> {
-        fun onDrawerExpandableLayout(view: LinearLayout, isExpand: Boolean)
+        fun onDrawerExpandableLayout(
+            activity: AppCompatActivity,
+            view: RecyclerView, isExpand: Boolean)
     }
 }

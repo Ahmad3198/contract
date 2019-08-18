@@ -7,22 +7,28 @@
         android:layout_height="match_parent"
         tools:context=".ui.activity.main.MainActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/contentMessage"
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
-            app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintTop_toTopOf="parent" android:id="@+id/linearLayout">
 
-    </androidx.recyclerview.widget.RecyclerView>
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/contentMessage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+        </androidx.recyclerview.widget.RecyclerView>
+    </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@color/colorLightBlue"
-            android:id="@+id/constraintLayout" android:layout_marginBottom="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/frameImageSelect">
+            android:id="@+id/constraintLayout"
+            app:layout_constraintBottom_toTopOf="@+id/frameImageSelect"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
         <LinearLayout
                 android:id="@+id/contentMedia"
@@ -70,17 +76,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/frameImageSelect"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginBottom="0dp" app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
-            <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:visibility="visible"
-                    android:id="@+id/imageCollection">
-            </androidx.recyclerview.widget.RecyclerView>
-        </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:background="@color/colorAccent"
+                android:id="@+id/imageCollection">
+        </androidx.recyclerview.widget.RecyclerView>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

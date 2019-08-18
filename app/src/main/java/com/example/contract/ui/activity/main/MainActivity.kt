@@ -9,12 +9,10 @@ import com.example.contract.R
 import com.example.contract.service.KafkaConnection
 import com.example.contract.di.component.DaggerActivityComponent
 import com.example.contract.di.module.ActivityModule
-import com.example.contract.service.RealmUser
 import com.example.gallerylibrary.manager.GalleryManager
 import com.example.gallerylibrary.ui.gallery.ImageCollectionAdapter
 import com.example.gallerylibrary.ui.gallery.ImageCollectionFragment
 import com.example.gallerylibrary.util.MediaStoreContent
-import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
@@ -53,7 +51,7 @@ class MainActivity : AppCompatActivity(), GalleryManager.CallBack, MainContract.
     private fun setActionView() {
         selectImage.setOnClickListener {
             isExpand = !isExpand
-            presenter.onDrawerExpandableLayout(frameImageSelect, isExpand)
+            presenter.onDrawerExpandableLayout(this, imageCollection, isExpand)
             if (isExpand) {
                 selectImage.setImageDrawable(resources.getDrawable(R.drawable.ic_gallery_red))
                 editTextSend.clearFocus()
@@ -74,7 +72,6 @@ class MainActivity : AppCompatActivity(), GalleryManager.CallBack, MainContract.
     }
 
     override fun showListImage() {
-        imageCollection.visibility = View.VISIBLE
         val gridLayout = GridLayoutManager(this, 3)
         imageCollectionAdapter.context = this
         imageCollectionAdapter.setSelectImage(this)
@@ -85,7 +82,6 @@ class MainActivity : AppCompatActivity(), GalleryManager.CallBack, MainContract.
     }
 
     override fun hideListImage() {
-        imageCollection.visibility = View.GONE
     }
 
 

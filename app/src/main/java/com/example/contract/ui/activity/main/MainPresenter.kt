@@ -1,6 +1,7 @@
 package com.example.contract.ui.activity.main
 
-import android.widget.LinearLayout
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.RecyclerView
 import com.example.contract.util.ExpandableLayout
 import io.reactivex.disposables.CompositeDisposable
 
@@ -21,10 +22,11 @@ import io.reactivex.disposables.CompositeDisposable
         this.view = view
     }
 
-    override fun onDrawerExpandableLayout(view: LinearLayout, isExpand: Boolean) {
+    override fun onDrawerExpandableLayout(activity: AppCompatActivity, view: RecyclerView, isExpand: Boolean) {
         val expandableLayout = ExpandableLayout(view)
         expandableLayout.attach(this)
-        if (isExpand) expandableLayout.show() else expandableLayout.hide()
+        expandableLayout.expandOrCollapse(activity,isExpand)
+//        if (isExpand) expandableLayout.show(activity) else expandableLayout.hide()
     }
 
     override fun onShowAnimationEnd() {
