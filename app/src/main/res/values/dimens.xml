@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="margin_8dp" >8dp</dimen>
+    <dimen name="font_normal" >16dp</dimen>
+    <dimen name="font_small" >12dp</dimen>
+    <dimen name="font_big" >18dp</dimen>
 </resources>

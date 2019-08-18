@@ -26,7 +26,6 @@ import io.reactivex.disposables.CompositeDisposable
         val expandableLayout = ExpandableLayout(view)
         expandableLayout.attach(this)
         expandableLayout.expandOrCollapse(activity,isExpand)
-//        if (isExpand) expandableLayout.show(activity) else expandableLayout.hide()
     }
 
     override fun onShowAnimationEnd() {

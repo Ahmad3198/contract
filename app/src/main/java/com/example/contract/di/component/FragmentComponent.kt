@@ -1,6 +1,7 @@
 package com.example.contract.di.component
 
 import com.example.contract.di.module.FragmentModule
+import com.example.contract.ui.fragment.chat.ChatListFragment
 import dagger.Component
 
 /**
@@ -8,5 +9,5 @@ import dagger.Component
  */
 @Component(modules = [FragmentModule::class])
 interface FragmentComponent {
-
+    fun inject(chatListFragment: ChatListFragment)
 }
