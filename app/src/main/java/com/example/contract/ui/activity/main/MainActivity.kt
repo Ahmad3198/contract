@@ -9,15 +9,20 @@ import com.example.contract.R
 import com.example.contract.service.KafkaConnection
 import com.example.contract.di.component.DaggerActivityComponent
 import com.example.contract.di.module.ActivityModule
+import com.example.contract.ui.base.AnimationClose
+import com.example.contract.ui.base.BaseActivity
 import com.example.gallerylibrary.manager.GalleryManager
 import com.example.gallerylibrary.ui.gallery.ImageCollectionAdapter
 import com.example.gallerylibrary.ui.gallery.ImageCollectionFragment
 import com.example.gallerylibrary.util.MediaStoreContent
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.toolbarApp
+import kotlinx.android.synthetic.main.fragment_chat_list.*
+import kotlinx.android.synthetic.main.toolbar_app.view.*
 import javax.inject.Inject
 
 
-class MainActivity : AppCompatActivity(), GalleryManager.CallBack, MainContract.View,
+class MainActivity : BaseActivity(), GalleryManager.CallBack, MainContract.View,
     ImageCollectionFragment.SelectedCallBack, ImageCollectionAdapter.SelectedImage{
 
     @Inject
@@ -36,7 +41,7 @@ class MainActivity : AppCompatActivity(), GalleryManager.CallBack, MainContract.
         injectDependency()
         presenter.attach(this)
         setActionView()
-
+        setActionBar()
         userPresenter.getAll()
         kafkaConnection.setProperties()
     }
@@ -67,6 +72,14 @@ class MainActivity : AppCompatActivity(), GalleryManager.CallBack, MainContract.
         }
     }
 
+    private fun setActionBar() {
+        toolbarApp.title.text = intent.getStringExtra("userName")
+        toolbarApp.leftIcon.setImageDrawable(resources.getDrawable(R.drawable.ic_arrow_left))
+        toolbarApp.rightIconFirst.setImageDrawable(resources.getDrawable(R.drawable.ic_search))
+        toolbarApp.rightIconTwo.visibility = View.GONE
+        closeActivity(toolbarApp.leftIcon, AnimationClose.LEFT_TO_RIGHT)
+    }
+
     override fun resultPath(arrayList: ArrayList<String>) {
         Toast.makeText(this, arrayList.first(), Toast.LENGTH_LONG).show()
     }
@@ -84,7 +97,6 @@ class MainActivity : AppCompatActivity(), GalleryManager.CallBack, MainContract.
     override fun hideListImage() {
     }
 
-
     override fun selected(count: Int) {
         //count select for update UI
     }
@@ -93,4 +105,9 @@ class MainActivity : AppCompatActivity(), GalleryManager.CallBack, MainContract.
 
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
+        this.overrideTransitionLeftTORight()
+    }
 }

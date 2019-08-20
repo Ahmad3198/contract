@@ -7,12 +7,24 @@
         android:layout_height="match_parent"
         tools:context=".ui.activity.main.MainActivity">
 
+    <include layout="@layout/toolbar_app"
+             android:layout_width="match_parent"
+             android:layout_height="?attr/actionBarSize"
+             android:id="@+id/toolbarApp" app:layout_constraintTop_toTopOf="parent"
+             app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="0dp" android:layout_marginRight="0dp"
+             app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="0dp"
+             android:layout_marginStart="0dp"/>
+
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:visibility="visible"
+            android:id="@+id/linearLayout"
             app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
-            app:layout_constraintTop_toTopOf="parent" android:id="@+id/linearLayout">
+            app:layout_constraintTop_toBottomOf="@id/toolbarApp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginLeft="0dp" android:layout_marginStart="0dp" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="0dp" android:layout_marginRight="0dp">
 
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/contentMessage"
@@ -23,8 +35,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@color/colorLightBlue"
+            android:layout_height="40dp"
+            android:background="@color/colorPrimary"
             android:id="@+id/constraintLayout"
             app:layout_constraintBottom_toTopOf="@+id/frameImageSelect"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout" app:layout_constraintStart_toStartOf="parent"
@@ -41,8 +53,7 @@
                     android:layout_width="40dp"
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_gallery"
-                    android:padding="@dimen/margin_8dp"
-                    android:background="@color/colorLightBlue"/>
+                    android:padding="@dimen/margin_8dp"/>
         </LinearLayout>
 
         <EditText android:layout_width="0dp"
@@ -59,10 +70,10 @@
                   app:layout_constraintBottom_toBottomOf="parent"
                   app:layout_constraintTop_toTopOf="parent"/>
 
-        <ImageView android:layout_width="50dp"
-                   android:layout_height="match_parent"
+        <ImageView android:layout_width="45dp"
+                   android:layout_height="45dp"
+                   app:layout_constraintDimensionRatio="1:1"
                    android:padding="@dimen/margin_8dp"
-                   android:background="@color/colorLightBlue"
                    android:src="@drawable/ic_send_message"
                    android:id="@+id/imgSendMessage"
                    android:layout_marginEnd="0dp" app:layout_constraintEnd_toEndOf="parent"
@@ -86,7 +97,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone"
-                android:background="@color/colorAccent"
                 android:id="@+id/imageCollection">
         </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>

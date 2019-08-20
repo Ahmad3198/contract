@@ -7,7 +7,7 @@ android {
     compileSdkVersion 29
     defaultConfig {
         applicationId "com.example.contract"
-        minSdkVersion 26
+        minSdkVersion 16
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -33,6 +33,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation project(path: ':gallerylibrary')
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'com.google.android.material:material:1.0.0'
 
     //rxkotlin
     implementation 'io.reactivex.rxjava2:rxkotlin:2.3.0'
@@ -63,9 +64,8 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
 
     //kafka
-    implementation "org.apache.kafka:kafka-clients:1.0.0"
-    implementation 'org.slf4j:slf4j-nop:1.7.25'
-    implementation 'com.google.android.material:material:1.0.0'
+//    implementation "org.apache.kafka:kafka-clients:1.0.0"
+//    implementation 'org.slf4j:slf4j-nop:1.7.25'
 }
 
 apply plugin: 'realm-android'

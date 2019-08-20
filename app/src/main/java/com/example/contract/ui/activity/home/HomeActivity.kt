@@ -32,6 +32,8 @@ class HomeActivity : AppCompatActivity() {
                 }
                 R.id.navigation_setting -> {
                     Log.d("tab selected", "navigation_setting")
+                    var contractFragment = ContractFragment()
+                    loadFragment(contractFragment)
                     return@setOnNavigationItemSelectedListener true
                 }
             }

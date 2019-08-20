@@ -1,6 +1,7 @@
 package com.example.gallerylibrary.ui.gallery
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_chat.view.*
 import com.example.contract.R
+import com.example.contract.ui.activity.main.MainActivity
 import com.example.contract.util.CustomView
 import javax.inject.Inject
 

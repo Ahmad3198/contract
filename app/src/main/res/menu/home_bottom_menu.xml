@@ -2,17 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
             android:id="@+id/navigation_contract"
-            android:icon="@drawable/ic_camera"
-            android:title="Tab1" />
+            android:icon="@drawable/ic_user_group"
+            android:title="Contract" />
 
     <item
             android:id="@+id/navigation_chat"
-            android:icon="@drawable/ic_camera"
-            android:title="Tab2" />
+            android:icon="@drawable/ic_chat"
+            android:title="Chat" />
 
     <item
             android:id="@+id/navigation_setting"
-            android:icon="@drawable/ic_camera"
-            android:title="Tab3" />
+            android:icon="@drawable/ic_setting_gear"
+            android:title="Setting" />
 
 </menu>
