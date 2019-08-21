@@ -1,22 +1,23 @@
-package com.example.contract.ui.adapter
+package com.example.gallerylibrary.ui.gallery
 
 import android.content.Context
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.item_chat.view.*
 import com.example.contract.R
+import com.example.contract.ui.adapter.ContractChildListAdapter
 import com.example.contract.util.CustomView
+import kotlinx.android.synthetic.main.item_group_contract.view.*
 
 
-class ChatListAdapter : RecyclerView.Adapter<ChatListAdapter.ViewHolder>() {
+class ContractListAdapter : RecyclerView.Adapter<ContractListAdapter.ViewHolder>() {
 
     private var customView: CustomView? = null
     lateinit var context: Context
     private var selectItemListener: SelectItemListener? = null
-    var chatList: ArrayList<String> = ArrayList()
+    var contractList : ArrayList<ArrayList<String>> = ArrayList()
 
     fun setSelectItemListener(selectItemListener: SelectItemListener){
         this.selectItemListener = selectItemListener
@@ -27,20 +28,23 @@ class ChatListAdapter : RecyclerView.Adapter<ChatListAdapter.ViewHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v = LayoutInflater.from(context).inflate(R.layout.item_chat, parent, false)
+        val v = LayoutInflater.from(context).inflate(R.layout.item_group_contract, parent, false)
         return ViewHolder(v)
     }
 
     override fun getItemCount(): Int {
-        return chatList.size
+        return contractList.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.view.userName.text = chatList[position]
-        holder.view.setBackgroundColor(Color.WHITE)
-        holder.view.setOnClickListener {
-            this.selectItemListener?.selected(position)
-            customView?.isHighlightSelected(holder.view)
+        holder.view.groupName.text = "Group $position"
+        holder.view.contentGroup.apply {
+            layoutManager = LinearLayoutManager(context)
+            var contractChildListAdapter = ContractChildListAdapter()
+            contractChildListAdapter.context = this.context
+            contractChildListAdapter.contractChild = contractList[position]
+            contractChildListAdapter.setCustomView(customView!!)
+            adapter = contractChildListAdapter
         }
     }
 

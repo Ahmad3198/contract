@@ -1,4 +1,4 @@
-package com.example.gallerylibrary.ui.gallery
+package com.example.contract.ui.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,13 +7,13 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.gallerylibrary.R
+import com.example.contract.R
 import com.example.gallerylibrary.model.PathImage
-import kotlinx.android.synthetic.main.adapter_folder.view.*
-import java.util.*
+import com.example.gallerylibrary.ui.gallery.GalleryActivity
+import kotlinx.android.synthetic.main.item_photo.view.*
 
 
-class ImageCollectionAdapter : RecyclerView.Adapter<ImageCollectionAdapter.ViewHolder>() {
+class PhotoCollectionAdapter : RecyclerView.Adapter<PhotoCollectionAdapter.ViewHolder>() {
 
     lateinit var context: Context
     var images = ArrayList<PathImage>()
@@ -21,7 +21,7 @@ class ImageCollectionAdapter : RecyclerView.Adapter<ImageCollectionAdapter.ViewH
     var selects = ArrayList<String>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v = LayoutInflater.from(context).inflate(R.layout.adapter_folder, parent, false)
+        val v = LayoutInflater.from(context).inflate(R.layout.item_photo, parent, false)
         return ViewHolder(v)
     }
 
@@ -34,12 +34,12 @@ class ImageCollectionAdapter : RecyclerView.Adapter<ImageCollectionAdapter.ViewH
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
         //set image Folder
-        Glide.with(context).load("file://" + images[position].path).into(holder.view.imgFolder)
-        holder.view.title.visibility = View.GONE
-        holder.view.selected.visibility = View.VISIBLE
-        if (images[position].type == GalleryActivity.MediaType.VIDEO) holder.view.imgCenter.visibility = View.VISIBLE else holder.view.imgCenter.visibility = View.GONE
+        Glide.with(context).load("file://" + images[position].path).into(holder.view.imageDisplay)
+        holder.view.selected.visibility = View.GONE
+        if (images[position].type == GalleryActivity.MediaType.VIDEO)
+            holder.view.imgCenter.visibility = View.VISIBLE
+        else holder.view.imgCenter.visibility = View.GONE
 
         holder.view.selected.setOnClickListener {
             images[position].select = !images[position].select
@@ -55,6 +55,10 @@ class ImageCollectionAdapter : RecyclerView.Adapter<ImageCollectionAdapter.ViewH
                 }
             }
         }
+
+        holder.view.imageDisplay.setOnClickListener {
+            this.selectedImage?.photoClick(selects.size)
+        }
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -63,6 +67,7 @@ class ImageCollectionAdapter : RecyclerView.Adapter<ImageCollectionAdapter.ViewH
 
     interface SelectedImage {
         fun selected(count: Int)
+        fun photoClick(count: Int)
     }
 }
 

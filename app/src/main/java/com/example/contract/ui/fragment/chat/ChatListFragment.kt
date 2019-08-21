@@ -1,11 +1,8 @@
 package com.example.contract.ui.fragment.chat
 
-import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,11 +12,9 @@ import com.example.contract.R
 import com.example.contract.di.component.DaggerFragmentComponent
 import com.example.contract.di.module.FragmentModule
 import com.example.contract.ui.activity.main.MainActivity
-import com.example.contract.ui.base.AnimationClose
 import com.example.contract.ui.base.BaseFragment
 import com.example.contract.util.CustomView
-import com.example.gallerylibrary.ui.gallery.ChatListAdapter
-import kotlinx.android.synthetic.main.activity_main.*
+import com.example.contract.ui.adapter.ChatListAdapter
 import kotlinx.android.synthetic.main.fragment_chat_list.*
 import kotlinx.android.synthetic.main.fragment_chat_list.toolbarApp
 import kotlinx.android.synthetic.main.toolbar_app.view.*
@@ -63,18 +58,20 @@ class ChatListFragment : BaseFragment(), ChatListAdapter.SelectItemListener {
         chatList.add("test2")
         chatList.add("test3")
 
+        toolbarApp.title.text = "Chat list"
         toolbarApp.leftIcon.visibility = View.GONE
         toolbarApp.leftIcon.visibility = View.GONE
         toolbarApp.rightIconFirst.visibility = View.GONE
         toolbarApp.rightIconTwo.visibility = View.GONE
 
-        chatListAdapter.context = context!!
-        chatListAdapter.chatList = chatList
         chatListAdapter.setSelectItemListener(this)
-        chatListAdapter.setCustomView(customView)
-        content.layoutManager = LinearLayoutManager(context)
-        content.adapter = chatListAdapter
-        chatListAdapter.notifyDataSetChanged()
+        content.apply {
+            chatListAdapter.context = context!!
+            chatListAdapter.chatList = chatList
+            chatListAdapter.setCustomView(customView)
+            content.layoutManager = LinearLayoutManager(context)
+            content.adapter = chatListAdapter
+        }
     }
 
     override fun selected(index: Int) {

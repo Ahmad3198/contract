@@ -7,7 +7,6 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="1dp"
         android:id="@+id/container"
-        android:background="@android:color/white"
         tools:context=".ui.fragment.chat.ChatListFragment">
 
     <ImageView
@@ -15,7 +14,7 @@
             android:layout_height="40dp"
             android:padding="@dimen/margin_8dp"
             android:layout_marginTop="8dp"
-            android:src="@drawable/ic_user_group"
+            android:src="@drawable/ic_user"
             android:background="@drawable/shape_circle"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -42,17 +41,8 @@
                 android:layout_marginRight="@dimen/margin_8dp"
                 android:layout_marginTop="@dimen/margin_8dp"
                 android:textSize="@dimen/font_normal"
-                android:text="chat name"/>
-        <TextView
-                android:id="@+id/lastChat"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/font_normal"
-                android:layout_marginTop="@dimen/margin_8dp"
-                android:layout_marginBottom="@dimen/margin_8dp"
-                android:layout_marginLeft="@dimen/margin_8dp"
-                android:layout_marginRight="@dimen/margin_8dp"
-                android:text="last chat"/>
+                android:text="Contract Name"/>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,9 +1,9 @@
 package com.example.contract.ui.activity.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.contract.R
 import com.example.contract.service.KafkaConnection
@@ -12,23 +12,22 @@ import com.example.contract.di.module.ActivityModule
 import com.example.contract.ui.base.AnimationClose
 import com.example.contract.ui.base.BaseActivity
 import com.example.gallerylibrary.manager.GalleryManager
-import com.example.gallerylibrary.ui.gallery.ImageCollectionAdapter
 import com.example.gallerylibrary.ui.gallery.ImageCollectionFragment
+import com.example.contract.ui.adapter.PhotoCollectionAdapter
 import com.example.gallerylibrary.util.MediaStoreContent
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.toolbarApp
-import kotlinx.android.synthetic.main.fragment_chat_list.*
 import kotlinx.android.synthetic.main.toolbar_app.view.*
 import javax.inject.Inject
 
 
 class MainActivity : BaseActivity(), GalleryManager.CallBack, MainContract.View,
-    ImageCollectionFragment.SelectedCallBack, ImageCollectionAdapter.SelectedImage{
+    ImageCollectionFragment.SelectedCallBack, PhotoCollectionAdapter.SelectedImage{
 
     @Inject
     lateinit var presenter : MainContract.Presenter
     @Inject
-    lateinit var imageCollectionAdapter : ImageCollectionAdapter
+    lateinit var photoCollectionAdapter : PhotoCollectionAdapter
     @Inject
     lateinit var userPresenter : UserPresenter
     @Inject
@@ -86,12 +85,12 @@ class MainActivity : BaseActivity(), GalleryManager.CallBack, MainContract.View,
 
     override fun showListImage() {
         val gridLayout = GridLayoutManager(this, 3)
-        imageCollectionAdapter.context = this
-        imageCollectionAdapter.setSelectImage(this)
+        photoCollectionAdapter.context = this
+        photoCollectionAdapter.setSelectImage(this)
         imageCollection.layoutManager = gridLayout
-        imageCollection.adapter = imageCollectionAdapter
-        imageCollectionAdapter.images.addAll(MediaStoreContent(this).findAll().first().path)
-        imageCollectionAdapter.notifyDataSetChanged()
+        imageCollection.adapter = photoCollectionAdapter
+        photoCollectionAdapter.images.addAll(MediaStoreContent(this).findAll().first().path)
+        photoCollectionAdapter.notifyDataSetChanged()
     }
 
     override fun hideListImage() {
@@ -99,6 +98,10 @@ class MainActivity : BaseActivity(), GalleryManager.CallBack, MainContract.View,
 
     override fun selected(count: Int) {
         //count select for update UI
+    }
+
+    override fun photoClick(count: Int) {
+        Log.d("Photo Select", count.toString())
     }
 
     override fun success(images: ArrayList<String>) {
